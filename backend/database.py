@@ -149,9 +149,15 @@ class Database:
     # ---------- blockchain ledger ----------
     def get_last_block(self):
         with self._connect() as conn:
-            row = conn.execute(
-                "SELECT * FROM blockchain_ledger ORDER BY idx DESC LIMIT 1"
-            ).fetchone()
+	    if case_id:
+		row = conn.execute(
+		    "SELECT * FROM blockchain_ledger WHERE case_id=? ORDER BY idx DESC LIMIT 1",
+		    (case_id,),
+		).fetchone()
+	    else:
+                row = conn.execute(
+                    "SELECT * FROM blockchain_ledger ORDER BY idx DESC LIMIT 1"
+                ).fetchone()
             return dict(row) if row else None
 
     def insert_block(self, block: dict):

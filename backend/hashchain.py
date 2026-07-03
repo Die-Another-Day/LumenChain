@@ -16,6 +16,7 @@ that belongs to whoever deploys this, not something to fake.
 
 import hashlib
 import json
+import threading          # add this line
 import time
 from dataclasses import dataclass, asdict
 from typing import Optional
@@ -52,7 +53,7 @@ class HashChain:
 
     def __init__(self, db):
         self.db = db
-
+    	self._lock = threading.Lock()      # add this line
     def _compute_block_hash(self, index, timestamp, case_id, log_hash, prev_block_hash) -> str:
         payload = canonical_json({
             "index": index,
@@ -65,26 +66,27 @@ class HashChain:
 
     def add_entry(self, case_id: str, raw_log: dict, metadata: Optional[dict] = None) -> Block:
         """Hash a log entry and append it to the chain."""
-        metadata = metadata or {}
-        last = self.db.get_last_block()
-        index = 0 if last is None else last["idx"] + 1
-        prev_hash = GENESIS_HASH if last is None else last["block_hash"]
+        with self._lock:
+	    metadata = metadata or {}
+            last = self.db.get_last_block()
+            index = 0 if last is None else last["idx"] + 1
+            prev_hash = GENESIS_HASH if last is None else last["block_hash"]
 
-        log_hash = sha256_hex(canonical_json(raw_log))
-        timestamp = time.time()
-        block_hash = self._compute_block_hash(index, timestamp, case_id, log_hash, prev_hash)
+            log_hash = sha256_hex(canonical_json(raw_log))
+            timestamp = time.time()
+            block_hash = self._compute_block_hash(index, timestamp, case_id, log_hash, prev_hash)
 
-        block = Block(
-            index=index,
-            timestamp=timestamp,
-            case_id=case_id,
-            log_hash=log_hash,
-            prev_block_hash=prev_hash,
-            block_hash=block_hash,
-            metadata=metadata,
-        )
-        self.db.insert_block(asdict(block))
-        return block
+            block = Block(
+                index=index,
+                timestamp=timestamp,
+                case_id=case_id,
+                log_hash=log_hash,
+                prev_block_hash=prev_hash,
+                block_hash=block_hash,
+                metadata=metadata,
+            )
+            self.db.insert_block(asdict(block))
+            return block
 
     def verify_chain(self, case_id: Optional[str] = None) -> dict:
         """

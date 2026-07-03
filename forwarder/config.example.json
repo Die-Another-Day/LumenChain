@@ -1,0 +1,11 @@
+{
+  "lumenchain_url": "http://localhost:8420",
+  "case_id": "CASE-DEMO01",
+  "channels": ["Security", "System"],
+  "event_server": "localhost",
+  "poll_interval_seconds": 15,
+  "batch_size": 100,
+  "backfill_on_first_run": false,
+  "checkpoint_file": "checkpoint.json",
+  "retry_queue_file": "retry_queue.jsonl"
+}
