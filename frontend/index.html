@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMENCHAIN — SOC Investigation Platform</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">◈</div>
+        <div>
+          <div class="brand-name">LUMENCHAIN</div>
+          <div class="brand-sub">SOC Investigation Platform</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <label>Case</label>
+        <select id="caseSelect"></select>
+        <button id="newCaseBtn" class="btn-secondary">+ New Case</button>
+        <button id="loadDemoBtn" class="btn-secondary">Load Demo Scenario</button>
+      </div>
+
+      <div class="section">
+        <label>Ingest Log (manual)</label>
+        <textarea id="logInput" placeholder='{"source":"EDR","event_description":"powershell.exe -ExecutionPolicy Bypass ...","workstation":"WKS-01"}'></textarea>
+        <button id="ingestBtn" class="btn-primary">Ingest Log</button>
+      </div>
+
+      <div class="section">
+        <label>Export Report</label>
+        <div class="export-row">
+          <button data-fmt="pdf" class="btn-export">PDF</button>
+          <button data-fmt="html" class="btn-export">HTML</button>
+          <button data-fmt="json" class="btn-export">JSON</button>
+          <button data-fmt="csv" class="btn-export">CSV</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1>Investigation Dashboard</h1>
+        <div id="integrityBadge" class="badge badge-neutral">No case selected</div>
+      </header>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-n" id="statLogs">0</div><div class="stat-l">Logs Ingested</div></div>
+        <div class="stat-card"><div class="stat-n" id="statAlerts">0</div><div class="stat-l">Detections</div></div>
+        <div class="stat-card critical"><div class="stat-n" id="statCritical">0</div><div class="stat-l">Critical</div></div>
+        <div class="stat-card high"><div class="stat-n" id="statHigh">0</div><div class="stat-l">High</div></div>
+        <div class="stat-card medium"><div class="stat-n" id="statMedium">0</div><div class="stat-l">Medium</div></div>
+      </div>
+
+      <div class="panels">
+        <section class="panel">
+          <h2>Attack Timeline</h2>
+          <div id="timeline" class="timeline"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Hash-Chain Ledger</h2>
+          <p class="hint">Each block hashes the log before it — editing any past entry breaks every hash after it.</p>
+          <div id="ledger" class="ledger"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

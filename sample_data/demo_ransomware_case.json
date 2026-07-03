@@ -1,0 +1,82 @@
+{
+  "_disclaimer": "SAMPLE / DEMO DATA ONLY. This is a fictional scenario used to demonstrate LUMENCHAIN's detection, hash-chain, timeline, and reporting features end-to-end. No real organization, IP address, or incident is represented.",
+  "case_id": "CASE-DEMO01",
+  "name": "Demo: Hospital Ransomware Scenario",
+  "logs": [
+    {
+      "source": "Email Gateway",
+      "event_time": 1751500320,
+      "event_description": "Phishing email delivered with subject 'Updated Payroll Information', malicious attachment opened by user jsmith",
+      "workstation": "WKS-1187"
+    },
+    {
+      "source": "EDR",
+      "event_time": 1751500380,
+      "event_description": "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -Command downloadstring invoked",
+      "workstation": "WKS-1187"
+    },
+    {
+      "source": "Firewall",
+      "event_time": 1751500440,
+      "event_description": "Outbound connection established, destination port 443",
+      "dest_ip": "185.220.101.47",
+      "workstation": "WKS-1187"
+    },
+    {
+      "source": "Windows Security Log",
+      "event_time": 1751500500,
+      "event_description": "Credential dump attempt detected against lsass.exe process memory",
+      "workstation": "WKS-1187"
+    },
+    {
+      "source": "Active Directory",
+      "event_time": 1751500620,
+      "event_description": "Administrator login successful, domain admin account used",
+      "workstation": "unknown"
+    },
+    {
+      "source": "File Server",
+      "event_time": 1751500800,
+      "event_description": "Mass file modification event across shared clinical records volume, files encrypted with unfamiliar extension",
+      "files_modified": 10248,
+      "workstation": "FS-CLINICAL-01"
+    },
+    {
+      "source": "EMR System",
+      "event_time": 1751500920,
+      "event_description": "Electronic medical records volume reported inaccessible by multiple clinical workstations",
+      "workstation": "EMR-CORE"
+    },
+    {
+      "source": "VPN Gateway",
+      "event_time": 1751497200,
+      "event_description": "Routine remote access session established for user mrodriguez",
+      "workstation": "REMOTE-0234"
+    },
+    {
+      "source": "Firewall",
+      "event_time": 1751490000,
+      "event_description": "Routine outbound connection, destination port 443",
+      "dest_ip": "13.107.42.14",
+      "workstation": "WKS-0552"
+    },
+    {
+      "source": "Windows Event Log",
+      "event_time": 1751486400,
+      "event_description": "Scheduled backup job completed successfully",
+      "workstation": "BACKUP-SRV-01"
+    },
+    {
+      "source": "EDR",
+      "event_time": 1751479200,
+      "event_description": "Routine antivirus definition update applied",
+      "workstation": "WKS-0781"
+    },
+    {
+      "source": "Active Directory",
+      "event_time": 1751472000,
+      "event_description": "User login successful, standard user account, recognized workstation",
+      "workstation": "WKS-0781"
+    }
+  ]
+}
